@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import CreateProductUseCase from "./create.product.usecase";
 const input = {
     type: faker.string.fromCharacters(['a', 'b']),
-    name: faker.commerce.productName(),
+    name: faker.commerce.product(),
     price: Number(faker.commerce.price())
 };
 
@@ -44,7 +44,10 @@ describe("Unit test create product use case", () => {
         const productRepository = MockRepository();
         const productCreateUseCase = new CreateProductUseCase(productRepository);
 
+        input.name = faker.commerce.product();
         input.price = -10;
+
+        console.log(input)
 
         await expect(productCreateUseCase.execute(input)).rejects.toThrow(
             "Price must be greater than zero"
